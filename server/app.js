@@ -34,7 +34,6 @@ if (process.env.NODE_ENV === "development") {
 // API Routes
 app.use("/api", routes);
 
-s;
 // Error handling middlewares
 app.use(notFound);
 app.use(errorHandler);

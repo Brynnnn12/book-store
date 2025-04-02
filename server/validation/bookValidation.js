@@ -7,7 +7,6 @@ const bookValidationSchema = Joi.object({
   description: Joi.string().min(10).required(),
   categoryId: Joi.string().required(), // Memvalidasi ID kategori sebagai string (UUID)
   price: Joi.number().min(0).required(),
-  coverImage: Joi.string().uri().required(),
 });
 
 // Fungsi validasi menggunakan Joi

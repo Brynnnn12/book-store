@@ -5,7 +5,7 @@ const validateCategoryData = require("../validation/categoryValidation");
 // Mendapatkan semua kategori
 exports.getAllCategories = asyncHandler(async (req, res) => {
   const categories = await Category.find();
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Kategori berhasil ditemukan",
     data: categories,
@@ -20,7 +20,7 @@ exports.getCategory = asyncHandler(async (req, res) => {
     throw new Error("Kategori tidak ditemukan");
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Kategori berhasil ditemukan",
     data: category,
@@ -39,7 +39,7 @@ exports.createCategory = asyncHandler(async (req, res) => {
   }
 
   const newCategory = await Category.create({ name, description });
-  res.status(201).json({
+  return res.status(201).json({
     success: true,
     message: "Kategori berhasil dibuat",
     data: newCategory,
@@ -61,7 +61,7 @@ exports.updateCategory = asyncHandler(async (req, res) => {
   category.description = description || category.description;
 
   const updatedCategory = await category.save();
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Kategori berhasil diperbarui",
     data: updatedCategory,
@@ -77,7 +77,7 @@ exports.deleteCategory = asyncHandler(async (req, res) => {
   }
 
   await category.deleteOne();
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Kategori berhasil dihapus",
   });

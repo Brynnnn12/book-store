@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Book = require("../models/Book");
 const Order = require("../models/Order");
 const { validateOrderData } = require("../validation/orderValidation"); // Import validasi
+const { deleteImage, extractPublicId } = require("../helpers/cloudinaryUpload");
 
 // Mendapatkan semua pesanan
 exports.getOrders = asyncHandler(async (req, res) => {
@@ -41,7 +42,7 @@ exports.createOrder = asyncHandler(async (req, res) => {
   // Validasi data pesanan
   validateOrderData(req.body);
 
-  const { bookId, totalPrice, paymentProof } = req.body;
+  const { bookId, totalPrice } = req.body;
   const userId = req.user._id; // Mengambil userId dari req.user
 
   // Cek apakah bookId valid dan ada di database
@@ -53,12 +54,15 @@ exports.createOrder = asyncHandler(async (req, res) => {
     });
   }
 
+  // Ambil URL bukti pembayaran dari req.file (sudah diunggah oleh middleware)
+  const paymentProofUrl = req.file ? req.file.path : null;
+
   // Membuat pesanan baru
   const order = new Order({
     userId,
     bookId,
     totalPrice,
-    paymentProof,
+    paymentProof: paymentProofUrl, // Simpan URL bukti pembayaran
     paymentStatus: "pending", // Set status pembayaran otomatis ke "pending"
   });
 
@@ -111,8 +115,13 @@ exports.deleteOrder = asyncHandler(async (req, res) => {
       message: "Pesanan tidak ditemukan",
     });
   }
+  if (order?.paymentProof) {
+    const publicId = extractPublicId(order.paymentProof);
+    if (publicId) await deleteImage(publicId);
+  }
 
-  await order.deleteOne();
+  await Order.deleteOne({ _id: req.params.id });
+
   res.status(200).json({
     status: true,
     message: "Pesanan berhasil dihapus",

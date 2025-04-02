@@ -8,6 +8,7 @@ const {
   deleteOrder,
 } = require("../controllers/orderController");
 const { protect, admin } = require("../middleware/authMiddleware");
+const { uploadPaymentProof } = require("../utils/fileUpload");
 
 // Rute untuk mendapatkan semua pesanan
 router.get("/", protect, getOrders);
@@ -16,7 +17,12 @@ router.get("/", protect, getOrders);
 router.get("/:id", protect, getOrderById);
 
 // Rute untuk membuat pesanan baru
-router.post("/", protect, createOrder);
+router.post(
+  "/",
+  protect,
+  uploadPaymentProof.single("paymentProof"),
+  createOrder
+);
 
 // Rute untuk mengupdate status pembayaran pesanan
 router.put("/:id/payment-status", protect, admin, updateOrderPaymentStatus);

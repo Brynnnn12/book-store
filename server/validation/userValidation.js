@@ -6,6 +6,17 @@ const userSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const validateUser = (data) => userSchema.validate(data);
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
 
-module.exports = { validateUser };
+const validate = (schema, data) => {
+  const { error } = schema.validate(data);
+  return { error }; // Selalu mengembalikan objek, bukan melempar error
+};
+
+module.exports = {
+  validateUser: (data) => validate(userSchema, data),
+  validateLogin: (data) => validate(loginSchema, data),
+};
