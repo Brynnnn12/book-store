@@ -17,7 +17,11 @@ connectDB();
 const app = express();
 
 // Middleware untuk mengizinkan CORS
-app.use(cors()); // Mengizinkan semua permintaan CORS
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // Middleware untuk keamanan
 app.use(helmet()); // Menambahkan header keamanan
