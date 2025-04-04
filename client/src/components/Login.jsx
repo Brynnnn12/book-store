@@ -104,10 +104,17 @@ function Login() {
             </button>
 
             <div className="text-sm">
-              Not registered?{" "}
-              <Link to="/signup" className="underline text-blue-500">
-                Sign up
-              </Link>
+              Already have an account?{" "}
+              <button
+                className="underline text-blue-500 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault(); // Mencegah submit form
+                  document.getElementById("my_modal_3").close();
+                  document.getElementById("signup_modal").showModal();
+                }}
+              >
+                Register
+              </button>
             </div>
           </div>
         </form>

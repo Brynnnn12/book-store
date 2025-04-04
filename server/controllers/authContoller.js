@@ -4,7 +4,7 @@ const generateToken = require("../utils/generateToken");
 const { validateUser, validateLogin } = require("../validation/userValidation");
 
 exports.register = asyncHandler(async (req, res) => {
-  const { error, value } = validateUser(req.body);
+  const { error } = validateUser(req.body);
 
   if (error) {
     return res
@@ -12,7 +12,7 @@ exports.register = asyncHandler(async (req, res) => {
       .json({ status: false, message: error.details[0].message });
   }
 
-  const { name, email, password } = value;
+  const { name, email, password } = req.body;
 
   const existingUser = await User.findOne({ email });
 

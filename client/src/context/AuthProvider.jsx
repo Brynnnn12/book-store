@@ -15,6 +15,29 @@ export function AuthProvider({ children }) {
     await checkAuth();
   };
 
+  // AuthProvider.js
+  const register = async (userData) => {
+    try {
+      setLoading(true);
+      const response = await api.post("/auth/register", userData);
+
+      if (response.status === 201) {
+        const token = response.data.data.token;
+        localStorage.setItem("token", token);
+        setToken(token);
+        await checkAuth();
+        return token;
+      }
+      throw new Error("Registration failed - no token received");
+    } catch (error) {
+      console.error("Registration error:", error);
+      let errorMessage =
+        error.response?.data?.message || error.message || "Registration failed";
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -54,6 +77,7 @@ export function AuthProvider({ children }) {
         isAuthenticated: !!token,
         login,
         logout,
+        register,
       }}
     >
       {children}

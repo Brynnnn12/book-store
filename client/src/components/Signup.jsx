@@ -13,15 +13,13 @@ function Signup() {
 
   const onSubmit = async (data) => {
     try {
-      const user = await register(data); // Panggil fungsi register
-      if (user) {
-        toast.success("Signup successful");
-        document.getElementById("signup_modal").close();
-      }
+      await register(data);
+      toast.success("Signup successful");
+
+      // Redirect atau lakukan sesuatu setelah registrasi
     } catch (err) {
-      toast.error(
-        "Signup failed: " + (err.response?.data?.message || "Unknown error")
-      );
+      toast.error(err.message); // Tampilkan pesan error yang lebih spesifik
+      console.error("Signup error:", err);
     }
   };
 
@@ -43,22 +41,22 @@ function Signup() {
 
         {/* Form Signup */}
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Fullname Input */}
+          {/* name Input */}
           <div className="mt-4 space-y-2">
-            <label htmlFor="fullname" className="block">
-              Fullname
+            <label htmlFor="name" className="block">
+              Name
             </label>
             <input
-              id="fullname"
+              id="name"
               type="text"
               className="w-full px-3 py-1 border rounded-md outline-none dark:bg-slate-700"
-              {...formRegister("fullname", {
-                required: "Fullname is required",
+              {...formRegister("name", {
+                required: "name is required",
               })}
             />
-            {errors.fullname && (
+            {errors.name && (
               <span className="text-sm text-red-500">
-                {errors.fullname.message}
+                {errors.name.message}
               </span>
             )}
           </div>
@@ -115,7 +113,8 @@ function Signup() {
               Already have an account?{" "}
               <button
                 className="underline text-blue-500 cursor-pointer"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   document.getElementById("signup_modal").close();
                   document.getElementById("my_modal_3").showModal();
                 }}

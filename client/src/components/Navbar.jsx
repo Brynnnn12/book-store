@@ -26,10 +26,10 @@ function Navbar() {
         <a href="/course">Course</a>
       </li>
       <li>
-        <a href="#">Contact</a>
+        <a href="/orders">Orders</a>
       </li>
       <li>
-        <a href="#">About</a>
+        <a href="/books">Books</a>
       </li>
     </>
   );

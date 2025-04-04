@@ -1,15 +1,16 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Courses from "./courses/Courses";
-import Signup from "./components/Signup";
 import { Toaster } from "react-hot-toast";
 import Home from "./Home/Home";
 import { useAuth } from "./context/AuthProvider";
-import Login from "./components/Login";
 import BookDetail from "./components/BookDetail";
+import Books from "./pages/books/Books";
+import Order from "./pages/orders/Order";
 
 function App() {
   const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -23,33 +24,49 @@ function App() {
 
   return (
     <div className="dark:bg-slate-900 dark:text-white min-h-screen">
-      <Routes>
+      <Routes location={location}>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={
-            isAuthenticated ? <Navigate to="/course" replace /> : <Login />
-          }
-        />
         <Route
           path="/course"
           element={
-            isAuthenticated ? <Courses /> : <Navigate to="/login" replace />
+            isAuthenticated ? (
+              <Courses />
+            ) : (
+              <Home showAuthModal="login" redirectPath="/course" />
+            )
           }
         />
         <Route
-          path="/signup"
+          path="/books/"
           element={
-            isAuthenticated ? <Navigate to="/course" replace /> : <Signup />
+            isAuthenticated ? (
+              <Books />
+            ) : (
+              <Home showAuthModal="login" redirectPath={location.pathname} />
+            )
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            isAuthenticated ? (
+              <Order />
+            ) : (
+              <Home showAuthModal="login" redirectPath={location.pathname} />
+            )
           }
         />
         <Route
           path="/books/:id"
           element={
-            isAuthenticated ? <BookDetail /> : <Navigate to="/login" replace />
+            isAuthenticated ? (
+              <BookDetail />
+            ) : (
+              <Home showAuthModal="login" redirectPath={location.pathname} />
+            )
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Home />} />
       </Routes>
       <Toaster
         position="top-center"
