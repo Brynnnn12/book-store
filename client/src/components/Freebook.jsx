@@ -63,11 +63,14 @@ function Freebook() {
     <>
       <div className="max-w-screen-2xl container mx-auto md:px-20 px-4">
         <div>
-          <h1 className="font-semibold text-xl pb-2">Free Offered Courses</h1>
+          <h1 className="font-semibold text-xl pb-2">
+            Buku Gratis & Penawaran Spesial
+          </h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium veritatis alias pariatur ad dolor repudiandae eligendi
-            corporis nulla non suscipit, iure neque earum?
+            Dapatkan berbagai buku menarik secara gratis dan nikmati penawaran
+            spesial hanya di toko buku online kami! Mulai dari buku digital,
+            voucher diskon, hingga bundling buku pilihan—semua tersedia untuk
+            kamu yang gemar membaca dan berburu promo.
           </p>
         </div>
 
