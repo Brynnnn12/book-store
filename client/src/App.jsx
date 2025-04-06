@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Courses from "./courses/Courses";
 import { Toaster } from "react-hot-toast";
-import Home from "./Home/Home";
+import Home from "./home/Home";
 import { useAuth } from "./context/AuthProvider";
 import BookDetail from "./components/BookDetail";
 import Books from "./pages/books/Books";
