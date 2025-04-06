@@ -4,11 +4,20 @@ const Order = require("../models/Order");
 const { validateOrderData } = require("../validation/orderValidation"); // Import validasi
 const { deleteImage, extractPublicId } = require("../helpers/cloudinaryUpload");
 
-// Mendapatkan semua pesanan
 exports.getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find()
-    .populate("userId", "name email") // Mengisi data pengguna
-    .populate("bookId", "title author price"); // Mengisi data buku
+  let orders;
+
+  if (req.user.role === "admin") {
+    // Admin bisa melihat semua pesanan
+    orders = await Order.find()
+      .populate("userId", "name email")
+      .populate("bookId", "title author price");
+  } else {
+    // User biasa hanya melihat pesanan miliknya
+    orders = await Order.find({ userId: req.user._id })
+      .populate("userId", "name email")
+      .populate("bookId", "title author price");
+  }
 
   res.status(200).json({
     status: true,

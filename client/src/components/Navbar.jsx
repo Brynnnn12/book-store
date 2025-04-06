@@ -4,7 +4,7 @@ import Login from "./Login";
 import Logout from "./Logout";
 
 function Navbar() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const [sticky, setSticky] = useState(false);
 
@@ -25,12 +25,18 @@ function Navbar() {
       <li>
         <a href="/course">Course</a>
       </li>
-      <li>
-        <a href="/orders">Orders</a>
-      </li>
-      <li>
-        <a href="/books">Books</a>
-      </li>
+      {isAuthenticated && (
+        <>
+          <li>
+            <a href="/orders">Orders</a>
+          </li>
+          {user?.role === "admin" && (
+            <li>
+              <a href="/books">Books</a>
+            </li>
+          )}
+        </>
+      )}
     </>
   );
 
