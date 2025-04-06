@@ -50,8 +50,8 @@ export function AuthProvider({ children }) {
       setLoading(true);
       if (token) {
         const response = await api.get("/auth/profile");
-        console.log("Auth response:", response.data); // ✅ ini log lengkap
-        console.log("User data:", response.data?.data); // ✅ ini data yang
+        // console.log("Auth response:", response.data); // ✅ ini log lengkap
+        // console.log("User data:", response.data?.data); // ✅ ini data yang
         // Handle 204 No Content response
         if (response.status === 204) {
           setUser(null);

@@ -31,9 +31,14 @@ function Navbar() {
             <a href="/orders">Orders</a>
           </li>
           {user?.role === "admin" && (
-            <li>
-              <a href="/books">Books</a>
-            </li>
+            <>
+              <li>
+                <a href="/books">Books</a>
+              </li>
+              <li>
+                <a href="/categories">Categories</a>
+              </li>
+            </>
           )}
         </>
       )}
@@ -42,13 +47,15 @@ function Navbar() {
 
   return (
     <div
-      className={`max-w-screen-2xl container mx-auto md:px-20 px-4 dark:bg-slate-800 dark:text-white fixed top-0 left-0 right-0 z-50 ${
+      className={`max-w-screen-2xl container mx-auto md:px-20 px-4 dark:bg-slate-800 dark:text-white sticky top-0 z-50 ${
         sticky
-          ? "sticky-navbar shadow-md bg-base-200 dark:bg-slate-700 duration-300 transition-all ease-in-out"
-          : ""
+          ? "shadow-md bg-base-200 dark:bg-slate-700 duration-300 transition-all ease-in-out"
+          : "bg-white dark:bg-slate-800"
       }`}
     >
-      <div className="navbar">
+      <div className="navbar h-16">
+        {" "}
+        {/* Tambahkan height tetap */}
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -76,7 +83,6 @@ function Navbar() {
           </div>
           <a className="text-2xl font-bold cursor-pointer">bookStore</a>
         </div>
-
         <div className="navbar-end space-x-3">
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">{navItems}</ul>
@@ -107,7 +113,7 @@ function Navbar() {
           {isAuthenticated ? (
             <Logout />
           ) : (
-            <div>
+            <div className="flex items-center">
               <button
                 className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-300"
                 onClick={() =>

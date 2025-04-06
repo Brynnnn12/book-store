@@ -7,6 +7,7 @@ import { useAuth } from "./context/AuthProvider";
 import BookDetail from "./components/BookDetail";
 import Books from "./pages/books/Books";
 import Order from "./pages/orders/Order";
+import CategoryPage from "./pages/categories/Category";
 
 function App() {
   const { isAuthenticated, loading } = useAuth();
@@ -66,6 +67,17 @@ function App() {
             )
           }
         />
+        <Route
+          path="/categories"
+          element={
+            isAuthenticated ? (
+              <CategoryPage />
+            ) : (
+              <Home showAuthModal="login" redirectPath={location.pathname} />
+            )
+          }
+        />
+
         <Route path="*" element={<Home />} />
       </Routes>
       <Toaster

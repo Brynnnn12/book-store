@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useAuth } from "../../../context/AuthProvider";
 
-const OrderDetailModal = ({
-  order,
-  loading,
-  onClose,
-  onUpdateStatus,
-  onDelete,
-}) => {
+const OrderDetailModal = ({ order, loading, onClose, onUpdateStatus }) => {
   const [paymentStatus, setPaymentStatus] = useState(order.paymentStatus);
 
+  const { user } = useAuth();
   const handleUpdateStatus = async () => {
     try {
       await onUpdateStatus(order._id, paymentStatus);
@@ -66,35 +62,37 @@ const OrderDetailModal = ({
 
         <div className="modal-action">
           <div className="w-full">
-            <div className="mb-4">
-              <label className="label">
-                <span className="label-text">Update Status Pembayaran</span>
-              </label>
-              <div className="flex gap-2">
-                <select
-                  value={paymentStatus}
-                  onChange={(e) => setPaymentStatus(e.target.value)}
-                  className="select select-bordered flex-grow"
-                >
-                  <option value="pending">Menunggu</option>
-                  <option value="completed">Selesai</option>
-                  <option value="failed">Gagal</option>
-                </select>
-                <button
-                  onClick={handleUpdateStatus}
-                  className={`btn btn-primary ${loading ? "loading" : ""}`}
-                  disabled={loading}
-                >
-                  {!loading && "Update"}
-                </button>
+            {user?.role === "admin" && (
+              <div className="mb-4">
+                <label className="label">
+                  <span className="label-text">Update Status Pembayaran</span>
+                </label>
+                <div className="flex gap-2">
+                  <select
+                    value={paymentStatus}
+                    onChange={(e) => setPaymentStatus(e.target.value)}
+                    className="select select-bordered flex-grow"
+                  >
+                    <option value="pending">Menunggu</option>
+                    <option value="completed">Selesai</option>
+                    <option value="failed">Gagal</option>
+                  </select>
+                  <button
+                    onClick={handleUpdateStatus}
+                    className={`btn btn-primary ${loading ? "loading" : ""}`}
+                    disabled={loading}
+                  >
+                    {!loading && "Update"}
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="flex justify-end gap-2">
               <button onClick={onClose} className="btn">
                 Tutup
               </button>
-              <button
+              {/* <button
                 onClick={() => {
                   if (
                     window.confirm(
@@ -108,7 +106,7 @@ const OrderDetailModal = ({
                 disabled={loading}
               >
                 {!loading && "Hapus Pesanan"}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

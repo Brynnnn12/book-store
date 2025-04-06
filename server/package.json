@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "server": "nodemon app.js",
-    "client": "npm start --prefix ../client",
+    "client": "npm run dev --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "nodemon seeder/adminSeeder.js",
     "data:destroy": "node seeder.js -d"

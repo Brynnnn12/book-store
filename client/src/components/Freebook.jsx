@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import axios from "axios";
+
 import BookCards from "./BookCard";
+import api from "../utils/axiosConfig";
 
 function Freebook() {
   const [book, setBook] = useState([]);
@@ -12,9 +13,9 @@ function Freebook() {
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/books");
+        const res = await api.get("/books");
         const data = res.data.data.books;
-        console.log(data);
+        // console.log(data);
         setBook(data);
       } catch (error) {
         console.log(error);
@@ -61,7 +62,7 @@ function Freebook() {
 
   return (
     <>
-      <div className="max-w-screen-2xl container mx-auto md:px-20 px-4">
+      <div className="max-w-screen-2xl container mx-auto md:px-20 px-8">
         <div>
           <h1 className="font-semibold text-xl pb-2">
             Buku Gratis & Penawaran Spesial

@@ -1,8 +1,30 @@
-import React from "react";
-import { FaEye, FaTrash, FaInfoCircle } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaEye } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
+import ConfirmModal from "../../../components/ConfirmModal"; // Pastikan path-nya sesuai
 
 const OrderTable = ({ orders, loading, onViewDetail, onDelete }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const confirmDelete = (id) => {
+    setSelectedOrderId(id);
+    setShowModal(true);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedOrderId) return;
+    setDeleting(true);
+    try {
+      await onDelete(selectedOrderId);
+    } finally {
+      setDeleting(false);
+      setShowModal(false);
+      setSelectedOrderId(null);
+    }
+  };
+
   if (loading) {
     return <div className="text-center p-4">Memuat data...</div>;
   }
@@ -16,81 +38,90 @@ const OrderTable = ({ orders, loading, onViewDetail, onDelete }) => {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y ">
-        <thead className="">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              ID
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Pengguna
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Buku
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Total Harga
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Aksi
-            </th>
-          </tr>
-        </thead>
-        <tbody className="">
-          {orders.map((order) => (
-            <tr key={order._id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {order._id.substring(0, 8)}...
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {order.userId?.name || "N/A"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {order.bookId?.title || "N/A"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-                Rp {order.totalPrice?.toLocaleString()}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <StatusBadge status={order.paymentStatus} />
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => onViewDetail(order._id)}
-                    className="text-indigo-600 hover:text-indigo-900 flex items-center"
-                    title="Detail"
-                  >
-                    <FaEye className="mr-1" />
-                    <span className="sr-only md:not-sr-only">Detail</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "Apakah Anda yakin ingin menghapus pesanan ini?"
-                        )
-                      ) {
-                        onDelete(order._id);
-                      }
-                    }}
-                    className="text-red-600 hover:text-red-900 flex items-center"
-                    title="Hapus"
-                  >
-                    <RiDeleteBinLine className="mr-1" />
-                    <span className="sr-only md:not-sr-only">Hapus</span>
-                  </button>
-                </div>
-              </td>
+    <>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y">
+          <thead>
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ID
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Pengguna
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Buku
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Total Harga
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Aksi
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                  {order._id.substring(0, 8)}...
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                  {order.userId?.name || "N/A"}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                  {order.bookId?.title || "N/A"}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                  Rp {order.totalPrice?.toLocaleString()}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <StatusBadge status={order.paymentStatus} />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => onViewDetail(order._id)}
+                      className="text-indigo-600 hover:text-indigo-900 flex items-center"
+                      title="Detail"
+                    >
+                      <FaEye className="mr-1" />
+                      <span className="sr-only md:not-sr-only">Detail</span>
+                    </button>
+                    <button
+                      onClick={() => confirmDelete(order._id)}
+                      className="text-red-600 hover:text-red-900 flex items-center"
+                      title="Hapus"
+                    >
+                      <RiDeleteBinLine className="mr-1" />
+                      <span className="sr-only md:not-sr-only">Hapus</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Modal Konfirmasi */}
+      <ConfirmModal
+        open={showModal}
+        title="Hapus Pesanan"
+        message="Apakah Anda yakin ingin menghapus pesanan ini?"
+        confirmText="Hapus"
+        cancelText="Batal"
+        loading={deleting}
+        onConfirm={handleDelete}
+        onCancel={() => {
+          setShowModal(false);
+          setSelectedOrderId(null);
+        }}
+      />
+    </>
   );
 };
 
