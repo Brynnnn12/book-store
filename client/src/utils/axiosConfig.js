@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://backend-book-alpha.vercel.app/api",
   timeout: 10000,
 });
 
