@@ -125,7 +125,7 @@ const OrdersPage = () => {
           onCreateOrder={createOrder}
         />
 
-        <div className=" shadow-md rounded-lg overflow-hidden mb-8">
+        <div>
           <h2 className="text-xl font-semibold p-4 border-b">Daftar Pesanan</h2>
           <OrderTable
             orders={orders}
