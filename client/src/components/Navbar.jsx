@@ -20,23 +20,23 @@ function Navbar() {
   const navItems = (
     <>
       <li>
-        <a href="/">Home</a>
+        <Link to="/">Home</Link>
       </li>
       <li>
-        <a href="/course">Course</a>
+        <Link to="/course">Course</Link>
       </li>
       {isAuthenticated && (
         <>
           <li>
-            <a href="/orders">Orders</a>
+            <Link to="/orders">Orders</Link>
           </li>
           {user?.role === "admin" && (
             <>
               <li>
-                <a href="/books">Books</a>
+                <Link to="/books">Books</Link>
               </li>
               <li>
-                <a href="/categories">Categories</a>
+                <Link to="/categories">Categories</Link>
               </li>
             </>
           )}
