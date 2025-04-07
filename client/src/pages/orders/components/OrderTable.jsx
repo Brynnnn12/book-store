@@ -39,7 +39,9 @@ const OrderTable = ({ orders, loading, onViewDetail, onDelete }) => {
 
   return (
     <>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto border rounded-md shadow-sm">
+        <h2 className="text-xl font-semibold p-4 border-b">Daftar Pesanan</h2>
+
         <table className="min-w-full divide-y">
           <thead>
             <tr>

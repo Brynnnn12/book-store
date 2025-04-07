@@ -116,8 +116,10 @@ const OrdersPage = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto pt-24 mb-10 px-10">
-        <h1 className="text-3xl font-bold mb-6">Manajemen Pesanan</h1>
+      <div className="container mx-auto pt-12 md:pt-24 mb-10 px-4 sm:px-6 lg:px-10">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6">
+          Manajemen Pesanan
+        </h1>
 
         <OrderForm
           books={books}
@@ -125,15 +127,12 @@ const OrdersPage = () => {
           onCreateOrder={createOrder}
         />
 
-        <div>
-          <h2 className="text-xl font-semibold p-4 border-b">Daftar Pesanan</h2>
-          <OrderTable
-            orders={orders}
-            loading={loading}
-            onViewDetail={fetchOrderById}
-            onDelete={deleteOrder}
-          />
-        </div>
+        <OrderTable
+          orders={orders}
+          loading={loading}
+          onViewDetail={fetchOrderById}
+          onDelete={deleteOrder}
+        />
 
         {selectedOrder && (
           <OrderDetailModal
