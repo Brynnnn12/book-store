@@ -5,9 +5,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 const serverless = require("serverless-http");
 
-const routes = require("../routes");
-const connectDB = require("../config/db");
-const { notFound, errorHandler } = require("../middleware/errorMiddleware");
+const routes = require("./routes");
+const connectDB = require("./config/db");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 // Load env
 dotenv.config();
