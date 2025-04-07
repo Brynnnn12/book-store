@@ -23,7 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
+app.get("/", (req, res) => {
+  res.json({ message: "Hello from Express on Vercel!" });
+});
 app.use("/api", routes);
 
 // Error handlers
