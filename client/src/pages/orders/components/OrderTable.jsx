@@ -42,7 +42,7 @@ const OrderTable = ({ orders, loading, onViewDetail, onDelete }) => {
       <div className="overflow-x-auto border rounded-md shadow-sm">
         <h2 className="text-xl font-semibold p-4 border-b">Daftar Pesanan</h2>
 
-        <table className="min-w-full divide-y">
+        <table className="table table-zebra w-full">
           <thead>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
