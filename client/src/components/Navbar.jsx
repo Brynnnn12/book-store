@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import Login from "./Login";
 import Logout from "./Logout";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const { isAuthenticated, user } = useAuth();
